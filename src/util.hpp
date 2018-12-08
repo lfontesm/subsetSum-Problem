@@ -6,12 +6,11 @@
 
 std::vector<Key> read_input(){
     std::vector<Key> T;
-    
+    std::string s;
+
     for (int i{0}; i < N; i++){
-        std::string s;
         std::cin >> s;
-        Key k(s);
-        T.push_back(k);
+        T.push_back(Key(s));
     }
     return T;
 }
