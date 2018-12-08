@@ -17,7 +17,7 @@ std::vector<Key> read_input(){
 }
 
 void usage(const string &s){
-    cout << s << "[password] < in/<file>" << endl;
+    cout << s << " [password] < in/<file>" << endl;
 }
 
 #endif // UTIL_HPP
