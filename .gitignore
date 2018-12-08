@@ -1,3 +1,9 @@
+# Outputs
+out.txt
+
+# VSCode files
+.vscode
+
 # Prerequisites
 *.d
 
