@@ -6,7 +6,7 @@
 
 using namespace std;
 
-#define C 4          // Number of character in the password.
+#define C 6          // Number of character in the password.
 #define B 5          // Number of bits per character.
 #define R (1 << B)   // Size of alphabet (always = 32).
 #define N (B * C)    // Number of bits per password.
@@ -31,6 +31,7 @@ public:
     // Returns the encrypted version of a key.
     Key subset_sum(const vector<Key> &T);
 
+    bool is_nullKey();
 
     void print_key(void) const;
 

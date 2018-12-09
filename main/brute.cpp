@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
 
     Key encrypted(argv[1]); // Encrypted password.
 
-    encrypted.print_key();  // Exibits provided password;
+    encrypted.print_key();  // Exhibits provided password;
     cout << endl;
 
     Key max;

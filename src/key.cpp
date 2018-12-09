@@ -36,13 +36,17 @@ void Key::print_key() const{
     std::cout << endl;
 }
 
+bool Key::is_nullKey(){
+    return this->digit[0] == 255;
+}
+
 Key Key::subset_sum(const vector<Key> &T){
     Key sum;
     for (int i = 0; i < N; ++i) {
         if (bit(i)) {
             sum += T[i];
             // cout << i << " "; // For testing
-            // T[i].print_key();         // For testing
+            // T[i].print_key(); // For testing
         }
     }
     return sum;

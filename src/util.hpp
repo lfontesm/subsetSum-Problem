@@ -2,7 +2,10 @@
 #define UTIL_HPP
 
 #include <istream>
+#include <array>
 #include "key.hpp"
+
+typedef array<array<Key*, R>, C> KeyMap;
 
 std::vector<Key> read_input(){
     std::vector<Key> T;

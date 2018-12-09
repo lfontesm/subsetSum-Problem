@@ -2,7 +2,7 @@
 EXECUTAVEL=trab2
 
 CC= g++
-CFLAGS= -std=c++11 -Wall -g  # -D NDEBUG -O3
+CFLAGS= -std=c++11 -Wall -g #-O2 # -D NDEBUG -O3
 
 
 # Arquivos de bibliotecas

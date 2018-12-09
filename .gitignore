@@ -3,6 +3,7 @@ out.txt
 
 # VSCode files
 .vscode
+vgcore*
 
 # Prerequisites
 *.d
