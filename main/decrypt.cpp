@@ -18,7 +18,7 @@ void decrypt(KeyMap &map, Key &iter, vector<Key> &stack, vector<Key> &T, Key &ma
             iter.digit[i] = digit;
             i--;
         }
-        if (carry) return;
+        if (carry) return; // This means the last key was found.
 
         i++; // This line ensures performance. Avoids computing an already computed item in the stack
 
