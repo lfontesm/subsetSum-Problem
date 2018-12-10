@@ -1,5 +1,5 @@
 CC= g++
-CFLAGS= -std=c++11 -Wall -g #-O2 # -D NDEBUG -O3
+CFLAGS= -std=c++11 -Wall -g -O3 #-O2 # -D NDEBUG -O3
 
 
 # Library files

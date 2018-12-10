@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#define C 6          // Number of character in the password.
+#define C 4          // Number of character in the password.
 #define B 5          // Number of bits per character.
 #define R (1 << B)   // Size of alphabet (always = 32).
 #define N (B * C)    // Number of bits per password.
@@ -22,9 +22,6 @@ private:
         return (this->digit[i/B] >> (B - 1 - i % B)) & 1;
     }
 public:
-    // Debugging
-    typedef map<pair<Key,Key>, int> PairMap;
-
     uchar digit[C];
     Key();
     Key(const Key &k);
@@ -34,7 +31,6 @@ public:
     // Computes the subset_sum of a given key.
     // Returns the encrypted version of a key.
     Key subset_sum(const vector<Key> &T);
-    Key subset_map(const vector<Key> &T, PairMap &myMap);
 
     bool is_nullKey();
 
