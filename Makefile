@@ -1,24 +1,21 @@
-
-EXECUTAVEL=trab2
-
 CC= g++
 CFLAGS= -std=c++11 -Wall -g #-O2 # -D NDEBUG -O3
 
 
-# Arquivos de bibliotecas
+# Library files
 SRCS=$(wildcard src/*.cpp)
 OBJS=$(patsubst src/%.cpp,build/%.o,$(SRCS))
 
-# Arquivos de executáveis
+# Executable files
 MAINS=$(wildcard main/*.cpp)
 EXES=$(patsubst main/%.cpp,bin/%,$(MAINS))
 
 
-# Marca as regras de arquivos que não devem ser excluídos
+# Files that shouldn't be deleted
 .PRECIOUS: %/  build/%.o
 
 
-# Target padrão
+# Default target
 all: exe
 
 # run: exe
@@ -30,26 +27,26 @@ clean:
 	rm -f -r ./bin
 
 
-# Cria uma pasta
+# Create a directory
 %/:
 	mkdir -p $@
 
-# Compila todos os executáveis
+# Compile all executables
 exe: $(EXES)
 
 
-# Compila bibliotecas de src/ para build/
+# Compile libraries from src/ to build/
 build/%.o: src/%.cpp | build/  $(dir .dep/src/%)/
 	$(CC) -o $@  -c  $<  $(CFLAGS)
 
 	@ $(CC) -MM -MT "$@"  $< $(CFLAGS)  > .dep/$<.d
 
-# Compila de main/ para para bin/
+# Compile from main/ to bin/
 bin/%: main/%.cpp $(OBJS) | bin/  $(dir .dep/main/%)/
 	$(CC) -o $@  -I "./src/"  $< $(OBJS)  $(CFLAGS)
 	
 	@ $(CC) -I "./src/" -MM -MT "$@"  $< $(CFLAGS)  > .dep/$<.d
 
 
-# Inclui as listas de dependências
+# Include list of dependencies
 include $(wildcard .dep/**/*)

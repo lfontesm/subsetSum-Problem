@@ -51,3 +51,15 @@ Key Key::subset_sum(const vector<Key> &T){
     }
     return sum;
 }
+
+Key Key::subset_map(const vector<Key> &T, PairMap &myMap){
+    Key sum;
+    for (int i = 0; i < N; ++i) {
+        if (bit(i)) {
+            sum += T[i];
+            // cout << i << " "; // For testing
+            // T[i].print_key(); // For testing
+        }
+    }
+    return sum;
+}
