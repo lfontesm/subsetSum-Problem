@@ -7,7 +7,7 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }
 
-    map<KeyPair*,int> m;
+    map<KeyPair*,int,KeyPairComparator> m;
 
     vector<Key> T = read_input(); // Computes T table
 
@@ -20,14 +20,14 @@ int main(int argc, char *argv[]){
 
     Key match; // Key we want to match
     Key checker;
-    Key a("aaa5");
+    Key a("a555");
     while (match != a){
         subset_map(match, T, m);
         // match.print_key();
         ++match;
     }
     for (auto p : m){
-        cout << "Key: [" << p.first.fst << ";" << p.first.snd << "], Val: " << p.second << endl;
+        cout << "Key: [" << p.first->fst << ";" << p.first->snd << "], Val: " << p.second << endl;
         // delete p.first;
     }
 

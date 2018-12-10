@@ -11,7 +11,7 @@ KeyPair::KeyPair(const Key &k1, const Key &k2) :
     snd(k2) { 
 }
 
-Key subset_map(const Key &k, const vector<Key> &T, map<KeyPair*, int> &m){
+Key subset_map(const Key &k, const vector<Key> &T, map<KeyPair*, int, KeyPairComparator> &m){
     Key sum;
     for (int i = 0; i < N; ++i) {
         if (bitP(k, i) == 0) continue;

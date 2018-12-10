@@ -15,6 +15,7 @@ using namespace std;
 #define ALPHABET "abcdefghijklmnopqrstuvwxyz012345"
 
 typedef unsigned char uchar;
+typedef std::array<char, C> word_type; // fixed size word
 
 class Key{
 private:
@@ -22,7 +23,7 @@ private:
         return (this->digit[i/B] >> (B - 1 - i % B)) & 1;
     }
 public:
-    uchar digit[C];
+    word_type digit;
     Key();
     Key(const Key &k);
     Key(const string &s);
@@ -101,5 +102,21 @@ public:
     }
     
 };
+
+// map a string to its representation in given alphabet
+static inline word_type to_string(const std::string& s) {
+	word_type w;
+	int j;
+	for (int i = 0; i < C; ++i) {
+		for (j = 0; j < R; ++j) {
+			if (s[i] == ALPHABET[j]) {
+				w[i] = j;
+				break;
+			}
+		}
+		if (j == R) throw std::out_of_range("invalid character");
+	}
+	return w;
+}
 
 #endif // KEY_HPP
