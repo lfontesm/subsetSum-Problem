@@ -15,7 +15,7 @@ using namespace std;
 #define ALPHABET "abcdefghijklmnopqrstuvwxyz012345"
 
 typedef unsigned char uchar;
-typedef std::array<char, C> word_type; // fixed size word
+typedef std::array<uchar, C> word_type; // fixed size word
 
 class Key{
 private:
@@ -34,6 +34,8 @@ public:
     Key subset_sum(const vector<Key> &T);
 
     bool is_nullKey();
+
+    void set_string(const std::string &s);
 
     void print_key(void) const;
 
@@ -54,7 +56,7 @@ public:
         return *this;
     }
 
-    friend Key operator++(Key &a){
+    friend Key& operator++(Key &a){
         int carry = 1;
         int digit;
         int i = C-1;
@@ -91,10 +93,8 @@ public:
         return !(a != b);
     }
 
-    inline bool operator<(const Key &k){
-        for (int i{0}; i < C; i++)
-            if (this->digit[i] < k.digit[i]) return true;
-        return false;
+    bool operator<(const Key &k) const {
+        return this->digit < k.digit;
     }
 
     inline bool operator>(const Key &k){

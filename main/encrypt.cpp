@@ -19,7 +19,7 @@ int main(int argc, char *argv[]){
 
     cout << endl << endl;
 
-    cout << encrypted << endl;
+    encrypted.print_key();
 
     return 0;
 }

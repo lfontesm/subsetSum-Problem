@@ -11,15 +11,7 @@ Key::Key(const Key &k){
 }
 
 Key::Key(const string &s){
-    int j;
-    for (int i = 0; i < C; ++i) {
-        for (j = 0; j < R; ++j) {
-            if (s[i] == ALPHABET[j]) {
-                this->digit[i] = j;
-                break;
-            }
-        }
-    }
+    set_string(s);
 }
 
 void Key::print_key() const{
@@ -50,4 +42,11 @@ Key Key::subset_sum(const vector<Key> &T){
         }
     }
     return sum;
+}
+
+inline void Key::set_string(const std::string& s) {
+    if (s.size() < C) {
+        throw std::invalid_argument("input string is too short");
+    }
+    digit = to_string(s);
 }

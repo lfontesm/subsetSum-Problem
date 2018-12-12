@@ -12,25 +12,26 @@ public:
     Key fst;
     Key snd;
 
-    inline bool operator<(const KeyPair &kp){
-        return this->fst < kp.fst;
+    inline bool operator<(const KeyPair& other) const {
+        if (this->fst == other.fst)
+            return this->snd < other.snd;
+        return this->fst < other.fst;
     }
 
-// private:
-    
-    
+    friend bool operator==(const KeyPair &kp1, const KeyPair &kp2){
+        return (kp1.fst == kp2.fst && kp1.snd == kp2.snd);
+    }
+
+private:
 };
 
 struct KeyPairComparator{
-    bool operator()(const KeyPair *left, const KeyPair *right) const{
-        if (((left->fst == right->fst) && (left->snd == left->snd)) ||
-            ((left->fst == right->snd) && (left->snd == right->fst)))
-            return 1;
-        return 0;
+    bool operator()(const KeyPair &left, const KeyPair &right) const{
+        return left < right;
     }
 };
 
-Key subset_map(const Key &k, const vector<Key> &T, map<KeyPair*, int, KeyPairComparator> &m);
+Key subset_map(const Key &k, const vector<Key> &T, map<KeyPair, int, KeyPairComparator> &m);
 
 inline int bitP(const Key &k, const int &i) {
     return (k.digit[i/B] >> (B - 1 - i % B)) & 1;
