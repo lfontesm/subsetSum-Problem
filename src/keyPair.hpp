@@ -1,7 +1,6 @@
 #if !defined(KEYPAIR_H_)
 #define KEYPAIR_H_
 
-#include <map>
 #include "key.hpp"
 
 class KeyPair{
@@ -31,7 +30,16 @@ struct KeyPairComparator{
     }
 };
 
-Key subset_map(const Key &k, const vector<Key> &T, map<KeyPair, int, KeyPairComparator> &m);
+// namespace sdt{
+//     template <>
+//     struct hash<KeyPair>{
+//         size_t operator()(const KeyPair& kp) const {
+//             return hash<array<uchar, C>()(kp.fst.digit) + hash<string>()(kp.snd.digit);
+//         }
+//     };
+// }
+
+// Key subset_map(const Key &k, const vector<Key> &T, unordered_map<KeyPair, int> &m);
 
 inline int bitP(const Key &k, const int &i) {
     return (k.digit[i/B] >> (B - 1 - i % B)) & 1;

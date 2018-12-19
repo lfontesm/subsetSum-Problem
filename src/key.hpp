@@ -3,7 +3,11 @@
 
 #include <iostream>
 #include <vector>
-#include <map>
+#include <array>
+// #include <functional>
+// #include <unordered_map>
+
+// #include <unordered_map>
 
 using namespace std;
 
@@ -15,7 +19,7 @@ using namespace std;
 #define ALPHABET "abcdefghijklmnopqrstuvwxyz012345"
 
 typedef unsigned char uchar;
-typedef std::array<uchar, C> word_type; // fixed size word
+typedef array<uchar, C> word_type; // fixed size word
 
 class Key{
 private:
@@ -33,6 +37,7 @@ public:
     // Returns the encrypted version of a key.
     Key subset_sum(const vector<Key> &T);
 
+    // Checks if a key's first digit is 255 (which should be equivalent to NULL_key)
     bool is_nullKey();
 
     void set_string(const std::string &s);
@@ -118,5 +123,18 @@ static inline word_type to_string(const std::string& s) {
 	}
 	return w;
 }
+
+// A hashing function for key
+template<class T, size_t S> 
+struct std::hash<std::array<T, S>> {
+    size_t operator() (const std::array<T, N>& key) const {
+        std::hash<T> hasher;
+        size_t result = 0;
+        for(size_t i = 0; i < N; ++i) {
+            result = result * 31 + hasher(key[i]); // ??
+        }
+        return result;
+    }
+};
 
 #endif // KEY_HPP

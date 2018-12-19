@@ -1,8 +1,7 @@
-#include <set>
+// #include <set>
 #include "keyPair.hpp"
 #include "util.hpp"
 #include <algorithm>
-#include <functional>
 
 int main(int argc, char *argv[]){
     if (argc < 2){
@@ -10,7 +9,7 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }
 
-    map<KeyPair, int, KeyPairComparator> m;
+    // unordered_map<Key, int> m;
 
     vector<Key> T = read_input(); // Computes T table
 
@@ -27,12 +26,12 @@ int main(int argc, char *argv[]){
     Key b("aaa5");
     Key c;
     Key d("5555");
-    while (match != max){
-        subset_map(match, T, m);
-        // match.print_key();
-        ++match;
-    }
-    subset_map(match, T, m);
+    // while (match != max){
+    //     subset_map(match, T, m);
+    //     // match.print_key();
+    //     ++match;
+    // }
+    // subset_map(match, T, m);
 
     KeyPair kp(a, b);
     KeyPair kp2(b, a);
@@ -47,8 +46,8 @@ int main(int argc, char *argv[]){
         };
 
     // Declaring a set that will store the pairs using above comparision logic
-	set<pair<KeyPair, int>, Comparator> setOfWords(
-        m.begin(), m.end(), compFunctor);
+	// set<pair<KeyPair, int>, Comparator> s(
+    //     m.begin(), m.end(), compFunctor);
 
     // if (kp < kp2)
     //     cout << "aaa\n";
@@ -56,14 +55,17 @@ int main(int argc, char *argv[]){
     //     cout << "bbb\n";
     cout << "kp: " << kp.fst << ";" << kp.snd << ". kp2: " << kp.fst << ";" << kp.snd << endl;
 
-
     // for (auto &p : m){
-    //     cout << "Key: [" << p.first.fst << ";" << p.first.snd << "], Val: " << p.second << endl;
+    //     delete p;
+    //     // cout << "Key: [" << p.first.fst << ";" << p.first.snd << "], Val: " << p.second << endl;
     // }
+    // for (auto &p : s)
+    //     cout << "Key: [" << p.first.fst << ";" << p.first.snd << "], Val: " << p.second << endl;
 
-    for (auto &p : setOfWords)
-        cout << "Key: [" << p.first.fst << ";" << p.first.snd << "], Val: " << p.second << endl;
-    
+    // s.clear();
+
+    // s.erase(s.begin(), s.end());
+    // for_each(s.begin(), s.end(), );
 
     return 0;
 }
