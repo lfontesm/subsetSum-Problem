@@ -1,5 +1,6 @@
 # Outputs
 out.txt
+out*.txt
 
 # VSCode files
 .vscode

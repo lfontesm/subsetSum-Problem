@@ -1,7 +1,94 @@
-// #include <set>
+#include <set>
 #include "keyPair.hpp"
 #include "util.hpp"
 #include <algorithm>
+#include <cmath>
+
+typedef array<array<Key*, R>, C> KeyMap;
+
+int decrypt(KeyMap &map, Key &iter, vector<Key> &stack, vector<Key> &T, Key &matcher){
+    int carry = 1;
+    int digit;
+    int i = C-1;
+    
+    while (carry && i >= 0){ // This loop is equivalent to add( (Key){0,0,0,0,1}, key);
+        digit = iter.digit[i];
+        digit += 1;
+
+        carry = digit >= R;
+        if (carry) digit = 0;
+        
+        iter.digit[i] = digit;
+        i--;
+    }
+    if (carry) return carry; // This means the last key was found.
+
+    i++; // This line ensures performance. Avoids computing an already computed 
+         // item that is already in the stack
+
+    while (i < C){
+        Key *k_sum = map[i][iter.digit[i]];
+
+        if (k_sum == NULL){
+            Key sssDigit;                            // Used to compute subset_sum for a single digit
+            sssDigit.digit[i] = iter.digit[i]; 
+            k_sum = new Key(sssDigit.subset_sum(T)); // subset_sum for one digit
+            map[i][iter.digit[i]] = k_sum;
+        }
+        
+        if (i == 0) // If i <= 0, then won't try to access stack[i - 1]
+            stack[i] = *k_sum;
+        else                                     // If i != 0, then the last position of stack
+            stack[i] = stack[i-1] + *k_sum;      // Already contains computed subset_sum
+        i++;
+    }
+
+    return 0;
+}
+
+int 
+fill_sumSet(
+    KeyMap &map, Key &iter, vector<Key> &stack, vector<Key> &T,
+    Key &matcher, unordered_set<KeyPair> &sumSet, int halfC
+    ){
+    int carry = 1;
+    int digit;
+    int i = halfC;
+    
+    while (carry && i >= 0){
+        digit = iter.digit[i];
+        digit += 1;
+
+        carry = digit >= R;
+        if (carry) digit = 0;
+        
+        iter.digit[i] = digit;
+        i--;
+    }
+    if (carry) return carry; 
+
+    i++;
+
+    while (i < halfC){
+        Key *k_sum = map[i][iter.digit[i]];
+
+        if (k_sum == NULL){
+            Key sssDigit;                            
+            sssDigit.digit[i] = iter.digit[i]; 
+            k_sum = new Key(subset_map(sssDigit, T, sumSet)); 
+            map[i][iter.digit[i]] = k_sum;
+        }
+        
+        if (i == 0)
+            stack[i] = *k_sum;
+        else                               
+            stack[i] = stack[i-1] + *k_sum;
+        i++;
+    }
+
+    return 0;
+}
+
 
 int main(int argc, char *argv[]){
     if (argc < 2){
@@ -9,7 +96,7 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }
 
-    // unordered_map<Key, int> m;
+    unordered_set<KeyPair> sumSet;
 
     vector<Key> T = read_input(); // Computes T table
 
@@ -19,53 +106,38 @@ int main(int argc, char *argv[]){
 
     Key max;
     for (int i{0}; i < C; i++) max.digit[i] = R-1;
+    
+    float halfC = (float)C / 2;
+    int ceilhalfC = ceilf(halfC);
+    cout << ceilhalfC << endl;
 
     Key match; // Key we want to match
     Key checker;
-    Key a("aa55");
-    Key b("aaa5");
-    Key c;
-    Key d("5555");
+
+    KeyMap map{};           // Initializing every position to NULL
+    vector<Key> stack{C};   // An implementation of sorts of a stack
+
+    // Max value for keys with size C/2
+    Key firstHalfKeys_Max;
+    for (int i{0}; i < ceilhalfC; i++)
+        firstHalfKeys_Max.digit[i] = R-1;
+    /* 
+     Pre-computing the values of the most used sums.
+     I don't have probabilistic skills enought to explain why the most computed sums
+     will be found in the first half of a key of size C.
+     For instance, in a key of size 4, the most computed sums will be computed between "55aa" and "5555"
+    */
+    while (fill_sumSet(map, match, stack, T, max, sumSet, ceilhalfC-1) != 1){
+
+    }
+
     // while (match != max){
     //     subset_map(match, T, m);
-    //     // match.print_key();
     //     ++match;
+    //     // match += b;
+    //     // match.print_key();
     // }
-    // subset_map(match, T, m);
-
-    KeyPair kp(a, b);
-    KeyPair kp2(b, a);
-
-    // Declaring the type of Predicate that accepts 2 pairs and return a bool
-    typedef std::function<bool(pair<KeyPair, int>, pair<KeyPair, int>)> Comparator;
- 
-	// Defining a lambda function to compare two pairs. It will compare two pairs using second field
-	Comparator compFunctor =
-        [](const pair<KeyPair, int> &elem1 , const pair<KeyPair, int> &elem2){
-            return elem1.second >= elem2.second;
-        };
-
-    // Declaring a set that will store the pairs using above comparision logic
-	// set<pair<KeyPair, int>, Comparator> s(
-    //     m.begin(), m.end(), compFunctor);
-
-    // if (kp < kp2)
-    //     cout << "aaa\n";
-    // else
-    //     cout << "bbb\n";
-    cout << "kp: " << kp.fst << ";" << kp.snd << ". kp2: " << kp.fst << ";" << kp.snd << endl;
-
-    // for (auto &p : m){
-    //     delete p;
-    //     // cout << "Key: [" << p.first.fst << ";" << p.first.snd << "], Val: " << p.second << endl;
-    // }
-    // for (auto &p : s)
-    //     cout << "Key: [" << p.first.fst << ";" << p.first.snd << "], Val: " << p.second << endl;
-
-    // s.clear();
-
-    // s.erase(s.begin(), s.end());
-    // for_each(s.begin(), s.end(), );
+    subset_map(match, T, sumSet);
 
     return 0;
 }

@@ -2,6 +2,7 @@
 #define KEYPAIR_H_
 
 #include "key.hpp"
+#include <unordered_set>
 
 class KeyPair{
 public:
@@ -30,16 +31,16 @@ struct KeyPairComparator{
     }
 };
 
-// namespace sdt{
-//     template <>
-//     struct hash<KeyPair>{
-//         size_t operator()(const KeyPair& kp) const {
-//             return hash<array<uchar, C>()(kp.fst.digit) + hash<string>()(kp.snd.digit);
-//         }
-//     };
-// }
+namespace std{
+    template <>
+    struct hash<KeyPair>{
+        size_t operator()(const KeyPair& kp) const {
+            return hash<Key>()(kp.fst) + hash<Key>()(kp.snd);
+        }
+    };
+}
 
-// Key subset_map(const Key &k, const vector<Key> &T, unordered_map<KeyPair, int> &m);
+Key subset_map(const Key &k, const vector<Key> &T, unordered_set<KeyPair> &m);
 
 inline int bitP(const Key &k, const int &i) {
     return (k.digit[i/B] >> (B - 1 - i % B)) & 1;

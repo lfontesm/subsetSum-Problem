@@ -1,6 +1,7 @@
-#include <array>
 #include "key.hpp"
 #include "util.hpp"
+
+typedef array<array<Key*, R>, C> KeyMap;
 
 void decrypt(KeyMap &map, Key &iter, vector<Key> &stack, vector<Key> &T, Key &matcher){
     while (1){ // Technically while the last key haven't been found.
@@ -27,7 +28,7 @@ void decrypt(KeyMap &map, Key &iter, vector<Key> &stack, vector<Key> &T, Key &ma
             Key *k_sum = map[i][iter.digit[i]];
 
             if (k_sum == NULL){
-                Key sssDigit;            // Used to compute subset_sum for a single digit
+                Key sssDigit;                            // Used to compute subset_sum for a single digit
                 sssDigit.digit[i] = iter.digit[i]; 
                 k_sum = new Key(sssDigit.subset_sum(T)); // subset_sum for one digit
                 map[i][iter.digit[i]] = k_sum;

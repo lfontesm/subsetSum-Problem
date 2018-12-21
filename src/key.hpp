@@ -4,14 +4,11 @@
 #include <iostream>
 #include <vector>
 #include <array>
-// #include <functional>
-// #include <unordered_map>
-
-// #include <unordered_map>
+#include <functional>
 
 using namespace std;
 
-#define C 4          // Number of character in the password.
+#define C 5          // Number of character in the password.
 #define B 5          // Number of bits per character.
 #define R (1 << B)   // Size of alphabet (always = 32).
 #define N (B * C)    // Number of bits per password.
@@ -124,17 +121,33 @@ static inline word_type to_string(const std::string& s) {
 	return w;
 }
 
+// namespace std{
+//     template<class T, size_t S> 
+//     struct hash<array<T, S>> {
+//         size_t operator() (const array<T, N>& key) const {
+//             hash<T> hasher;
+//             size_t result = 0;
+//             for(size_t i = 0; i < N; ++i) {
+//                 result = result * 31 + hasher(key[i]); // ??
+//             }
+//             return result;
+//         }
+//     };
+// }
+
 // A hashing function for key
-template<class T, size_t S> 
-struct std::hash<std::array<T, S>> {
-    size_t operator() (const std::array<T, N>& key) const {
-        std::hash<T> hasher;
-        size_t result = 0;
-        for(size_t i = 0; i < N; ++i) {
-            result = result * 31 + hasher(key[i]); // ??
+namespace std{
+    template<> 
+    struct hash<Key> {
+        size_t operator() (const Key& key) const {
+            hash<uchar> hasher;
+            size_t result = 0;
+            for(size_t i = 0; i < C; ++i) {
+                result = result * 31 + hasher(key.digit[i]); // ??
+            }
+            return result;
         }
-        return result;
-    }
-};
+    };
+}
 
 #endif // KEY_HPP
